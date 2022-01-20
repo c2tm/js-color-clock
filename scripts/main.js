@@ -5,6 +5,8 @@
 
 const currentTime = new Date();
 let newHexScope = ``;
+let clockDisplay = document.querySelector('.clock-display');
+let time;
 
 //functions
 
@@ -13,16 +15,25 @@ let startTime = currentTime.toLocaleTimeString('en-US', {hour12: false})
 document.onload = console.log(startTime);
 let initClockDisplay = document.querySelector('.clock-display');
 initClockDisplay.textContent = startTime;
+let mouseToggle = false;
 
 
 
-function timePerSecondDisplay(){
+let displayEvent = document.querySelector('.clock-display');
+displayEvent.addEventListener("mouseenter", function(){
+    mouseToggle = true;
+})
+
+displayEvent.addEventListener("mouseout", function(){
+    mouseToggle = false;
+})
+
+
+function timePerSecond(){
     let currentTimePerSecond = new Date ();
-    console.log(currentTimePerSecond.toLocaleTimeString('en-US', {hour12: false}));                 //I removed all console.log to clean up console :)
-    let time = currentTimePerSecond.toLocaleTimeString('en-US', {hour12: false});
-    let clockDisplay = document.querySelector('.clock-display');
-    clockDisplay.textContent = time;
-}
+    // console.log(currentTimePerSecond.toLocaleTimeString('en-US', {hour12: false}));                 //I removed all console.log to clean up console :)
+    time = currentTimePerSecond.toLocaleTimeString('en-US', {hour12: false});
+    } 
 
 function progressBar() {
     let currentTimePerSecond = new Date ();
@@ -47,16 +58,21 @@ function hexCodes() {
     clockFace.style.background = `#${newHex}`;
 }
 
-let display = document.querySelector('.clock-display');
-display.addEventListener("mouseenter", function(){
-    display.textContent = newHexScope;
-})
+function displayFunction() {
+    if(mouseToggle === false) {
+        clockDisplay.textContent = time;
+        console.log(`I ran!`);
+    } else {
+        clockDisplay.textContent = newHexScope;
+        console.log(`I ran!`);
+    }
+}
 
-
-const timePerSecond = setInterval(function(){
-   timePerSecondDisplay();
+const timePerSecondInterval = setInterval(function(){
+   timePerSecond();
    progressBar();
    hexCodes();
+   displayFunction();
 }, 1000)    
 
 
